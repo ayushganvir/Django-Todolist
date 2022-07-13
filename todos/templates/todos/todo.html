@@ -1,0 +1,85 @@
+<div id="myDIV" class="header">
+  <h2>My To Do List</h2>
+  <a class="button"
+         href="{% url 'todo-logout' %}">Logout</a>
+    <a class="button"
+         href="{% url 'todo-contact-me' %}">Contact The Admin</a>
+  <form action=" {% url 'todo-index' %}" method="post">
+    {% csrf_token %}
+    <p>
+      {{ tform.as_p }}
+    </p>
+  <input type="submit" value="ADD">
+  </form>
+  <!--<span onclick="newElement()" class="addBtn">Add</span>-->
+</div>
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<table><thead>
+  <tr>
+    <th>Done</th>
+    <th>To-Do</th>
+    <th>Edit</th>
+    <th>Owner</th>
+    <th> Delete </th>
+    <th>Completed</th>
+    <th>Tagged Users</th>
+  </tr>
+</thead>
+<tbody>
+  {% for t, user in todo_zipped_list %}
+  <tr>
+    <td>
+      {% if t.completed %}
+      YES
+      {% else %}
+      NO
+      {% endif %}
+    </td>
+    <td>
+            <a class="button"
+         href="{% url 'todo-title-detail' t.id %}">{{ t.title }}</a>
+    </td>
+    <td>
+            <a class="button"
+         href="{% url 'todo-edit' t.id %}">Edit</a>
+    </td>
+    <td>
+      {{ t.owner }}
+    </td>
+
+    <td>
+      <a class="button"
+         href="{% url 'todo-delete' t.id %}">Delete</a>
+    </td>
+    <td>
+      {% if t.completed %}
+      <a class="button" href="{% url 'todo-completed' t.id %}">Not Completed</a>
+      {% else %}
+      <a class="button" href="{% url 'todo-completed' t.id %}">Completed</a>
+      {% endif %}
+    </td>
+    <td>
+      {{ user|join:", "}}
+    </td>
+
+  </tr>
+  {% endfor %}
+</tbody>
+</table>

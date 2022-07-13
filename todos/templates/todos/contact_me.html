@@ -1,0 +1,9 @@
+  <form
+          enctype="multipart/form-data"
+          action=" {% url 'todo-contact-me' %}" method="post">
+    {% csrf_token %}
+    <p>
+      {{ form.as_table }}
+    </p>
+  <input type="submit" value="ADD">
+  </form>
